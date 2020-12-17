@@ -7,10 +7,13 @@
 			"es5",
 			"dom",
 			"es2015.promise"
-		]
+		],
+		"types": []
 	},
-	"exclude": [
-		"node_modules",
-	  	"librarys/protobuf/src/ProtoBuf.d.ts"
+	"include": [
+		"src",
+		"libs",
+		"librarys/**/bin/*.d.ts",
+		"protobuf/**/*.d.ts"
 	]
 }

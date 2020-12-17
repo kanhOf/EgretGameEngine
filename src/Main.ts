@@ -42,17 +42,28 @@ class Main extends egret.DisplayObjectContainer {
         App.StageUtils.startFullscreenAdaptation(650, 1000, this.onResize);
 
         //初始化
+        this.initLifecycle();
         this.initScene();
-        this.initModule();
 
-        //设置加载进度界面
-        App.SceneManager.runScene(SceneConsts.LOADING);
+        //加载资源配置文件
+        this.loadResConfig();
+    }
 
-        //加载资源版本号
-        if (false) {
-            App.ResVersionManager.loadConfig("resource/resource_version.json", this.loadResVersionComplate, this);
-        } else {
-            this.loadResVersionComplate();
+    private initLifecycle(): void {
+        egret.lifecycle.addLifecycleListener((context) => {
+            // custom lifecycle plugin
+        })
+
+        egret.lifecycle.onPause = () => {
+            egret.ticker.pause();
+            App.TimerManager.pause();
+            App.TweenUtils.pause();
+        }
+
+        egret.lifecycle.onResume = () => {
+            egret.ticker.resume();
+            App.TimerManager.resume();
+            App.TweenUtils.resume();
         }
     }
 
@@ -60,13 +71,13 @@ class Main extends egret.DisplayObjectContainer {
         App.ControllerManager.applyFunc(ControllerConst.RpgGame, RpgGameConst.GameResize);
     }
 
-    private loadResVersionComplate(): void {
+    private loadResConfig(): void {
         //初始化Resource资源加载库
         App.ResourceUtils.addConfig("resource/default.res.json", "resource/");
-        App.ResourceUtils.addConfig("resource/resource_core.json", "resource/");
-        App.ResourceUtils.addConfig("resource/resource_ui.json", "resource/");
-        App.ResourceUtils.addConfig("resource/resource_battle.json", "resource/");
-        App.ResourceUtils.addConfig("resource/resource_rpg.json", "resource/");
+        App.ResourceUtils.addConfig("resource/resource_core.res.json", "resource/");
+        App.ResourceUtils.addConfig("resource/resource_ui.res.json", "resource/");
+        App.ResourceUtils.addConfig("resource/resource_battle.res.json", "resource/");
+        App.ResourceUtils.addConfig("resource/resource_rpg.res.json", "resource/");
         App.ResourceUtils.loadConfig(this.onConfigComplete, this);
     }
 
@@ -83,7 +94,16 @@ class Main extends egret.DisplayObjectContainer {
      * 主题文件加载完成
      */
     private onThemeLoadComplete(): void {
+        //模块初始化
+        this.initModule();
+
+        //设置加载进度界面
+        App.SceneManager.runScene(SceneConsts.LOADING);
+
+        //开启游戏
         new RpgTest();
+        new ProtoBufTest();
+        // new EUITest();
     }
 
     /**

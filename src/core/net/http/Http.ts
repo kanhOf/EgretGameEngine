@@ -2,7 +2,7 @@
  * Created by yangsong on 2014/11/22.
  * Http请求处理
  */
-class Http extends BaseClass {
+class Http extends SingtonClass {
     private _serverUrl:string;
     private _urlLoader:egret.URLLoader;
     private _request:egret.URLRequest;
@@ -98,7 +98,7 @@ class Http extends BaseClass {
             App.MessageCenter.dispatch(this._type, t_obj);
         }
         else {
-            Log.trace("Http错误:" + t_obj["s"]);
+            Log.debug("Http错误:" + t_obj["s"]);
         }
         this.nextPost();
     }

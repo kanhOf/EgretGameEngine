@@ -2,7 +2,7 @@
  * Created by yangsong on 15-1-23.
  * 引擎扩展类
  */
-class EgretExpandUtils extends BaseClass {
+class EgretExpandUtils extends SingtonClass {
     /**
      * 构造函数
      */
@@ -13,7 +13,6 @@ class EgretExpandUtils extends BaseClass {
     /**
      * 初始化函数
      */
-    public init():void {
-        AnchorUtil.init();
+    public init(): void {
     }
 }
